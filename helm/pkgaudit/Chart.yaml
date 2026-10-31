@@ -1,0 +1,6 @@
+apiVersion: v2
+name: pkgaudit
+description: Multi-host Python package vulnerability dashboard (FastAPI, PostgreSQL, TOTP and LDAP login)
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

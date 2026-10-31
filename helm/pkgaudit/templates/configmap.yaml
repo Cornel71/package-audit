@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "pkgaudit.fullname" . }}
+  labels: {{- include "pkgaudit.labels" . | nindent 4 }}
+data:
+  COOKIE_SECURE: {{ .Values.config.cookieSecure | quote }}
+  HSTS: {{ .Values.config.hsts | quote }}
+  REQUIRE_TOTP: {{ .Values.config.requireTotp | quote }}
+  SESSION_HOURS: {{ .Values.config.sessionHours | quote }}
+  RETENTION_DAYS: {{ .Values.config.retentionDays | quote }}
+  LDAP_ENABLED: {{ .Values.ldap.enabled | quote }}
+  LDAP_URI: {{ .Values.ldap.uri | quote }}
+  LDAP_START_TLS: {{ .Values.ldap.startTls | quote }}
+  LDAP_BIND_DN: {{ .Values.ldap.bindDn | quote }}
+  LDAP_BASE_DN: {{ .Values.ldap.baseDn | quote }}
+  LDAP_USER_FILTER: {{ .Values.ldap.userFilter | quote }}
+  LDAP_GROUP_ATTR: {{ .Values.ldap.groupAttr | quote }}
+  LDAP_ADMIN_GROUP_DN: {{ .Values.ldap.adminGroupDn | quote }}
+  LDAP_VIEWER_GROUP_DN: {{ .Values.ldap.viewerGroupDn | quote }}

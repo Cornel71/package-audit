@@ -1,0 +1,57 @@
+{{- if .Values.tls.certManager.enabled }}
+{{- $fn := include "pkgaudit.fullname" . }}
+{{- $issuerName := .Values.tls.certManager.issuerRef.name }}
+{{- $issuerKind := .Values.tls.certManager.issuerRef.kind }}
+{{- if .Values.tls.certManager.selfSigned }}
+{{- $issuerName = printf "%s-ca" $fn }}
+{{- $issuerKind = "Issuer" }}
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: {{ $fn }}-selfsigned
+  labels: {{- include "pkgaudit.labels" . | nindent 4 }}
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ $fn }}-ca
+  labels: {{- include "pkgaudit.labels" . | nindent 4 }}
+spec:
+  isCA: true
+  commonName: {{ $fn }}-ca
+  secretName: {{ $fn }}-ca
+  duration: 87600h
+  privateKey: {algorithm: ECDSA, size: 256}
+  issuerRef: {name: {{ $fn }}-selfsigned, kind: Issuer}
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: {{ $fn }}-ca
+  labels: {{- include "pkgaudit.labels" . | nindent 4 }}
+spec:
+  ca:
+    secretName: {{ $fn }}-ca
+---
+{{- end }}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ $fn }}-tls
+  labels: {{- include "pkgaudit.labels" . | nindent 4 }}
+spec:
+  secretName: {{ include "pkgaudit.tlsSecret" . }}
+  dnsNames:
+    - {{ .Values.host | quote }}
+    {{- range .Values.tls.extraDnsNames }}
+    - {{ . | quote }}
+    {{- end }}
+  duration: {{ .Values.tls.certManager.duration }}
+  renewBefore: {{ .Values.tls.certManager.renewBefore }}
+  privateKey: {algorithm: ECDSA, size: 256, rotationPolicy: Always}
+  issuerRef:
+    name: {{ required "tls.certManager.issuerRef.name is required when selfSigned=false" $issuerName }}
+    kind: {{ $issuerKind }}
+{{- end }}

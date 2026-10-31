@@ -1,0 +1,85 @@
+image:
+  repository: docker.io/cornel71/pkgaudit
+  tag: ""
+  pullPolicy: IfNotPresent
+imagePullSecrets: []
+deploymentAnnotations: {}
+
+replicaCount: 2
+host: audit.alienware.loc
+
+config:
+  cookieSecure: true
+  hsts: false
+  requireTotp: true
+  sessionHours: 8
+  retentionDays: 180
+
+ldap:
+  enabled: false
+  uri: ldaps://ldap.example.com:636
+  startTls: false
+  bindDn: cn=svc-pkgaudit,ou=services,dc=example,dc=com
+  baseDn: ou=people,dc=example,dc=com
+  userFilter: "(&(objectClass=person)(uid={username}))"
+  groupAttr: memberOf
+  adminGroupDn: cn=pkgaudit-admins,ou=groups,dc=example,dc=com
+  viewerGroupDn: cn=pkgaudit-users,ou=groups,dc=example,dc=com
+
+secrets:
+  existingSecret: ""
+  secretKey: ""
+  fernetKey: ""
+  postgresPassword: ""
+  ldapBindPassword: ""
+
+vault:
+  enabled: false
+  role: pkgaudit
+  address: ""
+  authPath: auth/kubernetes
+  mount: kv
+  paths:
+    app: pkgaudit/app
+  extraAnnotations: {}
+
+postgres:
+  enabled: true
+  image: postgres:16-alpine
+  storage:
+    size: 5Gi
+    storageClass: ""
+  resources:
+    requests: {cpu: 100m, memory: 256Mi}
+    limits: {memory: 1Gi}
+
+externalDatabase:
+  url: ""
+
+resources:
+  requests: {cpu: 100m, memory: 192Mi}
+  limits: {memory: 512Mi}
+
+podDisruptionBudget:
+  enabled: true
+
+traefik:
+  enabled: true
+  entryPoints:
+    web: web
+    websecure: websecure
+  maxRequestBodyBytes: 20971520
+
+tls:
+  secretName: ""
+  extraDnsNames: []
+  certManager:
+    enabled: true
+    selfSigned: true
+    issuerRef: {name: "", kind: ClusterIssuer}
+    duration: 2160h
+    renewBefore: 360h
+
+networkPolicy:
+  enabled: true
+  traefikNamespace: traefik

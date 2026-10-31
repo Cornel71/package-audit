@@ -1,0 +1,47 @@
+{{- if .Values.traefik.enabled }}
+{{- $fn := include "pkgaudit.fullname" . }}
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ $fn }}-redirect-https
+  labels: {{- include "pkgaudit.labels" . | nindent 4 }}
+spec:
+  redirectScheme: {scheme: https, permanent: true}
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ $fn }}-body-limit
+  labels: {{- include "pkgaudit.labels" . | nindent 4 }}
+spec:
+  buffering:
+    maxRequestBodyBytes: {{ .Values.traefik.maxRequestBodyBytes }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ $fn }}-http
+  labels: {{- include "pkgaudit.labels" . | nindent 4 }}
+spec:
+  entryPoints: [{{ .Values.traefik.entryPoints.web }}]
+  routes:
+    - kind: Rule
+      match: Host(`{{ .Values.host }}`)
+      middlewares: [{name: {{ $fn }}-redirect-https}]
+      services: [{name: {{ $fn }}, port: 8000}]
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ $fn }}
+  labels: {{- include "pkgaudit.labels" . | nindent 4 }}
+spec:
+  entryPoints: [{{ .Values.traefik.entryPoints.websecure }}]
+  routes:
+    - kind: Rule
+      match: Host(`{{ .Values.host }}`)
+      middlewares: [{name: {{ $fn }}-body-limit}]
+      services: [{name: {{ $fn }}, port: 8000}]
+  tls:
+    secretName: {{ include "pkgaudit.tlsSecret" . }}
+{{- end }}

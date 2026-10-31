@@ -1,0 +1,80 @@
+{{- if .Values.postgres.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "pkgaudit.fullname" . }}-postgres
+  labels: {{- include "pkgaudit.labels" . | nindent 4 }}
+spec:
+  selector: {{- include "pkgaudit.dbSelector" . | nindent 4 }}
+  ports: [{name: pg, port: 5432}]
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "pkgaudit.fullname" . }}-postgres
+  labels: {{- include "pkgaudit.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "pkgaudit.fullname" . }}-postgres
+  replicas: 1
+  selector:
+    matchLabels: {{- include "pkgaudit.dbSelector" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{- include "pkgaudit.dbSelector" . | nindent 8 }}
+      {{- if .Values.vault.enabled }}
+      annotations: {{- include "pkgaudit.vaultDbAnnotations" . | nindent 8 }}
+      {{- end }}
+    spec:
+      {{- if .Values.vault.enabled }}
+      serviceAccountName: {{ include "pkgaudit.fullname" . }}
+      {{- end }}
+      {{- with (include "pkgaudit.pullSecrets" .) }}
+      {{- . | nindent 6 }}
+      {{- end }}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 70
+        runAsGroup: 70
+        fsGroup: 70
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: postgres
+          image: {{ .Values.postgres.image }}
+          ports: [{name: pg, containerPort: 5432}]
+          env:
+            - {name: POSTGRES_USER, value: pkgaudit}
+            - {name: POSTGRES_DB, value: pkgaudit}
+            - {name: PGDATA, value: /var/lib/postgresql/data/pgdata}
+            {{- if .Values.vault.enabled }}
+            - {name: POSTGRES_PASSWORD_FILE, value: /vault/secrets/pgpass}
+            {{- else }}
+            - name: POSTGRES_PASSWORD
+              valueFrom: {secretKeyRef: {name: {{ include "pkgaudit.secretName" . }}, key: POSTGRES_PASSWORD}}
+            {{- end }}
+          readinessProbe:
+            exec: {command: [pg_isready, -U, pkgaudit]}
+            periodSeconds: 5
+          livenessProbe:
+            exec: {command: [pg_isready, -U, pkgaudit]}
+            initialDelaySeconds: 30
+            periodSeconds: 20
+          resources: {{- toYaml .Values.postgres.resources | nindent 12 }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: {drop: [ALL]}
+          volumeMounts:
+            - {name: data, mountPath: /var/lib/postgresql/data}
+            - {name: run, mountPath: /var/run/postgresql}
+      volumes:
+        - {name: run, emptyDir: {}}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ReadWriteOnce]
+        {{- with .Values.postgres.storage.storageClass }}
+        storageClassName: {{ . | quote }}
+        {{- end }}
+        resources:
+          requests: {storage: {{ .Values.postgres.storage.size }}}
+{{- end }}

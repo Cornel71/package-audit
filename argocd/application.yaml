@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pkgaudit
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:Cornel71/package-audit.git
+    targetRevision: main
+    path: deploy/helm/pkgaudit
+    helm:
+      releaseName: pkgaudit
+      valuesObject:
+        host: audit.alienware.loc
+        image:
+          repository: docker.io/cornel71/pkgaudit
+          tag: "1.0.0"
+        imagePullSecrets:
+          - name: pkgaudit-regcred
+        vault:
+          enabled: true
+          address: http://vault.vault.svc:8200
+          role: pkgaudit
+          mount: kv
+          paths:
+            app: pkgaudit/app
+        networkPolicy:
+          traefikNamespace: traefik
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: pkgaudit
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: baseline
+        pod-security.kubernetes.io/warn: restricted

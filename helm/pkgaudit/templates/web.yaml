@@ -1,0 +1,105 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "pkgaudit.fullname" . }}
+  labels: {{- include "pkgaudit.labels" . | nindent 4 }}
+spec:
+  selector: {{- include "pkgaudit.webSelector" . | nindent 4 }}
+  ports: [{name: http, port: 8000, targetPort: http}]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "pkgaudit.fullname" . }}
+  labels: {{- include "pkgaudit.labels" . | nindent 4 }}
+{{- with .Values.deploymentAnnotations }}
+  annotations: {{- toYaml . | nindent 4 }}
+{{- end }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    rollingUpdate: {maxUnavailable: 0, maxSurge: 1}
+  selector:
+    matchLabels: {{- include "pkgaudit.webSelector" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{- include "pkgaudit.webSelector" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        {{- if and (not .Values.secrets.existingSecret) (not .Values.vault.enabled) }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- end }}
+        {{- if .Values.vault.enabled }}
+        {{- include "pkgaudit.vaultWebAnnotations" . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- if .Values.vault.enabled }}
+      serviceAccountName: {{ include "pkgaudit.fullname" . }}
+      {{- end }}
+      {{- with (include "pkgaudit.pullSecrets" .) }}
+      {{- . | nindent 6 }}
+      {{- end }}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        seccompProfile: {type: RuntimeDefault}
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels: {{- include "pkgaudit.webSelector" . | nindent 14 }}
+      initContainers:
+        - name: init-db          # creates tables; retried by the kubelet until PostgreSQL accepts connections
+          image: {{ include "pkgaudit.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: [python, -m, app.cli, init]
+          {{- with (include "pkgaudit.env" .) }}
+          env: {{- . | nindent 12 }}
+          {{- end }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+      containers:
+        - name: web
+          image: {{ include "pkgaudit.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports: [{name: http, containerPort: 8000}]
+          envFrom:
+            - configMapRef: {name: {{ include "pkgaudit.fullname" . }}}
+          {{- with (include "pkgaudit.env" .) }}
+          env: {{- . | nindent 12 }}
+          {{- end }}
+          readinessProbe:
+            httpGet: {path: /healthz, port: http}
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: {path: /healthz, port: http}
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          startupProbe:
+            httpGet: {path: /healthz, port: http}
+            failureThreshold: 30
+            periodSeconds: 2
+          resources: {{- toYaml .Values.resources | nindent 12 }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          volumeMounts:
+            - {name: tmp, mountPath: /tmp}
+      volumes:
+        - {name: tmp, emptyDir: {}}
+{{- if .Values.podDisruptionBudget.enabled }}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "pkgaudit.fullname" . }}
+  labels: {{- include "pkgaudit.labels" . | nindent 4 }}
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels: {{- include "pkgaudit.webSelector" . | nindent 6 }}
+{{- end }}
