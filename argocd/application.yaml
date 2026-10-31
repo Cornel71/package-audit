@@ -15,7 +15,7 @@ spec:
         host: audit.alienware.loc
         image:
           repository: docker.io/cornel71/pkgaudit
-          tag: "1.0.0"
+          tag: "1.0.1"
         imagePullSecrets:
           - name: pkgaudit-regcred
         vault:
