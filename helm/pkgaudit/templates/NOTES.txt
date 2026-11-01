@@ -1,9 +1,9 @@
 PkgAudit is deployed at https://{{ .Values.host }}
 
-Create the first admin:
+create admin:
   kubectl -n {{ .Release.Namespace }} exec -it deploy/{{ include "pkgaudit.fullname" . }} -- python -m app.cli create-admin <username>
 {{- if and .Values.tls.certManager.enabled .Values.tls.certManager.selfSigned }}
 
-The certificate is signed by a private CA. Export it to trust it in browsers and on audited hosts:
+certificate is signed by a private CA:
   kubectl -n {{ .Release.Namespace }} get secret {{ include "pkgaudit.fullname" . }}-ca -o jsonpath='{.data.ca\.crt}' | base64 -d > pkgaudit-ca.crt
 {{- end }}

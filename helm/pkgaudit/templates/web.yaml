@@ -50,7 +50,7 @@ spec:
           labelSelector:
             matchLabels: {{- include "pkgaudit.webSelector" . | nindent 14 }}
       initContainers:
-        - name: init-db          # creates tables; retried by the kubelet until PostgreSQL accepts connections
+        - name: init-db
           image: {{ include "pkgaudit.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: [python, -m, app.cli, init]
