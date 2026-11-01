@@ -27,6 +27,13 @@ spec:
             app: pkgaudit/app
         networkPolicy:
           traefikNamespace: traefik
+  ignoreDifferences:
+    - group: apps
+      kind: StatefulSet
+      jqPathExpressions:
+        - .spec.volumeClaimTemplates[]?.apiVersion
+        - .spec.volumeClaimTemplates[]?.kind
+        - .spec.volumeClaimTemplates[]?.status
   destination:
     server: https://kubernetes.default.svc
     namespace: pkgaudit
@@ -37,6 +44,7 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+      - RespectIgnoreDifferences=true
     managedNamespaceMetadata:
       labels:
         pod-security.kubernetes.io/enforce: baseline
