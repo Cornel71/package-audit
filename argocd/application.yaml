@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: git@github.com:Cornel71/package-audit.git
     targetRevision: main
-    path: deploy/helm/pkgaudit
+    path: helm/pkgaudit
     helm:
       releaseName: pkgaudit
       valuesObject:
