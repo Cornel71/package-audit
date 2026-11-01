@@ -304,8 +304,7 @@ def main():
         "--open-browser", action="store_true",
         help="Open the generated HTML dashboard in the default browser"
     )
-    
-    # Argumente Server & Upload
+
     parser.add_argument("--upload-url", help="PkgAudit server URL (e.g. https://audit.example.com)")
     parser.add_argument("--api-user", help="API username for PkgAudit server")
     parser.add_argument("--api-password", help="API password for PkgAudit server")
@@ -392,7 +391,6 @@ def main():
     print(f"  Vulnerable packages: {n_vulnerable}")
     print(f"  Outdated packages:   {n_outdated}")
 
-    # Generare Dashboard HTML (fără să deschidă browserul automat)
     if not args.no_dashboard:
         generate_dashboard(
             args.output,
@@ -400,12 +398,10 @@ def main():
             open_browser=args.open_browser,
         )
 
-    # Upload pe server
     if args.upload_url:
         if not args.api_user or not args.api_password:
             print("  ! Error: --api-user and --api-password are required when using --upload-url.", file=sys.stderr)
             sys.exit(1)
-            
         print(f"Uploading audit report to PkgAudit server ({args.upload_url})...")
         try:
             result = upload(
