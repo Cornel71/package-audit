@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-pkg_cve_audit.py (Standalone + Server Uploader + No Auto-Open)
+pkg_cve_audit.py
 
 Scans all Python packages installed in the current environment, checks each
 one against the OSV.dev vulnerability database, compares the installed version
