@@ -71,7 +71,7 @@ traefik:
   maxRequestBodyBytes: 20971520
 
 tls:
-  secretName: ""
+  secretName: "pkgaudit-web-tls"
   extraDnsNames: []
   certManager:
     enabled: true

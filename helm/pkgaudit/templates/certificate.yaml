@@ -1,0 +1,18 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: pkgaudit-web-tls
+  namespace: pkgaudit
+spec:
+  secretName: pkgaudit-web-tls
+  dnsNames:
+    - audit.companyx.ro
+    - www.audit.companyx.ro
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+    rotationPolicy: Always
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+    group: cert-manager.io
