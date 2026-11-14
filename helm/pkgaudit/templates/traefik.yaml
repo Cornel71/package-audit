@@ -43,5 +43,6 @@ spec:
       middlewares: [{name: {{ $fn }}-body-limit}]
       services: [{name: {{ $fn }}, port: 8000}]
   tls:
-    secretName: {{ include "pkgaudit.tlsSecret" . }}
+    secretName: pkgaudit-web-tls
 {{- end }}
+
