@@ -6,7 +6,7 @@ imagePullSecrets: []
 deploymentAnnotations: {}
 
 replicaCount: 2
-host: audit.alienware.loc
+host: audit.companyx.ro
 
 config:
   cookieSecure: true
@@ -75,10 +75,9 @@ tls:
   extraDnsNames: []
   certManager:
     enabled: true
-    selfSigned: true
-    issuerRef: {name: "", kind: ClusterIssuer}
-    duration: 2160h
-    renewBefore: 360h
+    selfSigned: false
+    issuerRef: letsencrypt-prod
+    renewBefore: 240h
 
 networkPolicy:
   enabled: true

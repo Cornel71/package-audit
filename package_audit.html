@@ -1,0 +1,3601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Python Package Security & Audit Dashboard</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 20px; background: #f4f7f6; color: #333; }
+        .container { max-width: 1200px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        h1 { margin-top: 0; color: #2c3e50; }
+        .stats { display: flex; gap: 20px; margin-bottom: 30px; }
+        .card { flex: 1; background: #f8f9fa; padding: 20px; border-radius: 6px; border-left: 5px solid #3498db; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .card.danger { border-left-color: #e74c3c; }
+        .card.warning { border-left-color: #f39c12; }
+        .card h3 { margin: 0 0 10px 0; font-size: 14px; color: #7f8c8d; text-transform: uppercase; }
+        .card p { margin: 0; font-size: 24px; font-weight: bold; color: #2c3e50; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #e1e8ed; }
+        th { background-color: #f8f9fa; color: #2c3e50; font-weight: 600; }
+        tr:hover { background-color: #f8f9fa; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        .badge-danger { background: #fde8e8; color: #c53030; }
+        .badge-success { background: #def7ec; color: #03543f; }
+        .badge-warning { background: #fef3c7; color: #92400e; }
+        .search-box { width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Python Package Security Audit Dashboard</h1>
+    <p>Generated automatically from <code>package_audit.csv</code></p>
+    
+    <div class="stats">
+        <div class="card">
+            <h3>Total Packages</h3>
+            <p>352</p>
+        </div>
+        <div class="card warning">
+            <h3>Outdated Packages</h3>
+            <p>199</p>
+        </div>
+        <div class="card danger">
+            <h3>Vulnerable Packages</h3>
+            <p>23</p>
+        </div>
+    </div>
+
+    <input type="text" id="searchBox" class="search-box" placeholder="Search packages, CVEs, or versions..." onkeyup="filterTable()">
+
+    <table id="auditTable">
+        <thead>
+            <tr>
+                <th>Package</th>
+                <th>Installed</th>
+                <th>Latest</th>
+                <th>Outdated</th>
+                <th>Vulnerable</th>
+                <th>CVE IDs</th>
+                <th>Severity</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>accelerate</strong></td>
+                <td>1.13.0</td>
+                <td>1.15.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>CVE-2026-69112; CVE-2026-69112</td>
+                <td>CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:H; CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:H</td>
+                <td>Accelerate path traversal and denial of service via sharded checkpoint weight_map entries | Accelerate path traversal and denial of service via sharded checkpoint weight_map entries</td>
+            </tr>
+            <tr>
+                <td><strong>aiofiles</strong></td>
+                <td>25.1.0</td>
+                <td>25.1.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>aiohappyeyeballs</strong></td>
+                <td>2.6.2</td>
+                <td>2.7.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>aiohttp</strong></td>
+                <td>3.14.5</td>
+                <td>3.14.5</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>aiosignal</strong></td>
+                <td>1.4.0</td>
+                <td>1.4.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>annotated-doc</strong></td>
+                <td>0.0.4</td>
+                <td>0.0.6</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>annotated-types</strong></td>
+                <td>0.7.0</td>
+                <td>0.8.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>ansible</strong></td>
+                <td>14.5.0</td>
+                <td>14.6.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>ansible-compat</strong></td>
+                <td>26.10.0</td>
+                <td>26.11.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>ansible-core</strong></td>
+                <td>2.21.5</td>
+                <td>2.22.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>ansible-lint</strong></td>
+                <td>26.10.1</td>
+                <td>26.11.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>anyio</strong></td>
+                <td>4.11.0</td>
+                <td>4.16.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>CVE-2026-64847; CVE-2026-63374; CVE-2026-64847; CVE-2026-63374</td>
+                <td>CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N; CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N; CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N; CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N</td>
+                <td>AnyIO process-pool workers can block indefinitely on undrained stderr | AnyIO: TLSStream IDNA 2003 host name encoding enables potential TLS certificate spoofing | AnyIO process-pool workers can block indefinitely on undrained stderr | AnyIO: TLSStream IDNA 2003 host name encoding enables potential TLS certificate spoofing</td>
+            </tr>
+            <tr>
+                <td><strong>apache-libcloud</strong></td>
+                <td>3.8.0</td>
+                <td>3.9.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>aptdaemon</strong></td>
+                <td>2.0.2</td>
+                <td>1.1.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>apturl</strong></td>
+                <td>0.5.2</td>
+                <td>unknown</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>argcomplete</strong></td>
+                <td>3.6.3</td>
+                <td>3.7.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>asciinema</strong></td>
+                <td>2.4.0</td>
+                <td>2.4.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>attrs</strong></td>
+                <td>25.4.0</td>
+                <td>26.1.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>autocommand</strong></td>
+                <td>2.2.2</td>
+                <td>2.2.2</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>Automat</strong></td>
+                <td>25.4.16</td>
+                <td>25.4.16</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>babel</strong></td>
+                <td>2.17.0</td>
+                <td>2.18.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>bcc</strong></td>
+                <td>0.35.0</td>
+                <td>0.1.10</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>bcrypt</strong></td>
+                <td>5.0.0</td>
+                <td>5.0.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>beautifulsoup4</strong></td>
+                <td>4.15.0</td>
+                <td>4.15.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>bitsandbytes</strong></td>
+                <td>0.49.2</td>
+                <td>0.50.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>black</strong></td>
+                <td>26.3.1</td>
+                <td>26.10.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>CVE-2026-114134</td>
+                <td>CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N</td>
+                <td>Black: GitHub Action installs unvalidated required-version from pyproject.toml</td>
+            </tr>
+            <tr>
+                <td><strong>blinker</strong></td>
+                <td>1.9.0</td>
+                <td>1.9.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>boolean.py</strong></td>
+                <td>5.0</td>
+                <td>5.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>bracex</strong></td>
+                <td>2.4</td>
+                <td>3.2.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>Brlapi</strong></td>
+                <td>0.8.6</td>
+                <td>unknown</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>brotli</strong></td>
+                <td>1.2.0</td>
+                <td>1.2.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>CVE-2026-111497; CVE-2026-111497</td>
+                <td>CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H; CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N</td>
+                <td>Brotli: Out-of-bounds write in the Brotli decoder ("Node2Shell") also affects the PyPI Brotli package | Out-of-bounds write in the Brotli decoder ("Node2Shell") also affects the PyPI Brotli package</td>
+            </tr>
+            <tr>
+                <td><strong>bs4</strong></td>
+                <td>0.0.2</td>
+                <td>0.0.2</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>build</strong></td>
+                <td>1.5.0</td>
+                <td>1.6.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>CacheControl</strong></td>
+                <td>0.14.4</td>
+                <td>0.14.4</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>certifi</strong></td>
+                <td>2026.10.23</td>
+                <td>2026.10.23</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>cffi</strong></td>
+                <td>2.0.0</td>
+                <td>2.1.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>chardet</strong></td>
+                <td>5.2.0</td>
+                <td>7.7.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>charset-normalizer</strong></td>
+                <td>3.5.2</td>
+                <td>3.5.2</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>chromadb</strong></td>
+                <td>1.5.9</td>
+                <td>1.5.9</td>
+                <td>False</td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>CVE-2026-45830; CVE-2026-45833; CVE-2026-45829; CVE-2026-45831; CVE-2026-45829; CVE-2026-45830; CVE-2026-45833; CVE-2026-45831</td>
+                <td>CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H; CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H; CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H; CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H; CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H/E:P; CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H; CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H; CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H</td>
+                <td>ChromaDB allows any authenticated users to arbitrarily read, write, update, or delete data in any tenant's collection | ChromaDB has a code injection vulnerability | ChromaDB Python project has a pre-authentication code injection vulnerability | ChromaDB's SimpleRBACAuthorizationProvider doesn't check which tenant, database, or collection a permission applies to | ChromaDB Python project has a pre-authentication code injection vulnerability | ChromaDB allows any authenticated users to arbitraril</td>
+            </tr>
+            <tr>
+                <td><strong>click</strong></td>
+                <td>8.4.2</td>
+                <td>8.5.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>command-not-found</strong></td>
+                <td>0.3</td>
+                <td>unknown</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>configobj</strong></td>
+                <td>5.0.9</td>
+                <td>5.0.9</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>constantly</strong></td>
+                <td>23.10.4</td>
+                <td>23.10.4</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>conversion</strong></td>
+                <td>0.0.9</td>
+                <td>0.0.9</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>cryptography</strong></td>
+                <td>50.0.2</td>
+                <td>50.0.2</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>cuda-bindings</strong></td>
+                <td>12.9.4</td>
+                <td>13.5.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>cuda-pathfinder</strong></td>
+                <td>1.5.5</td>
+                <td>1.8.6</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>cupshelpers</strong></td>
+                <td>1.0</td>
+                <td>unknown</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>cut-cross-entropy</strong></td>
+                <td>25.1.1</td>
+                <td>25.1.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>cyclonedx-python-lib</strong></td>
+                <td>11.12.0</td>
+                <td>11.12.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>dasbus</strong></td>
+                <td>1.7</td>
+                <td>1.7</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>datasets</strong></td>
+                <td>4.3.0</td>
+                <td>5.2.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>CVE-2026-66007; CVE-2026-66007</td>
+                <td>CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N; CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:A/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:X/CR:X/IR:X/AR:X/MAV:X/MAC:X/MAT:X/MPR:X/MUI:X/MVC:X/MVI:X/MVA:X/MSC:X/MSI:X/MSA:X/S:X/AU:X/R:X/V:X/RE:X/U:X</td>
+                <td>Hugging Face Datasets folder-based builders allow path traversal through file_name metadata | Datasets through 5.0.0, fixed in commit f989ef9, contains a path traversal vulnerability in folder-based dataset builders where the file_name metadata field is not properly validated before being join</td>
+            </tr>
+            <tr>
+                <td><strong>dbus-python</strong></td>
+                <td>1.4.0</td>
+                <td>1.5.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>ddgs</strong></td>
+                <td>9.14.4</td>
+                <td>9.16.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>decorator</strong></td>
+                <td>5.2.1</td>
+                <td>5.3.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>deep-translator</strong></td>
+                <td>1.11.4</td>
+                <td>1.11.4</td>
+                <td>False</td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>PYSEC-2022-252</td>
+                <td></td>
+                <td>The deep-translator project on PyPI was taken over via user account compromise via a phishing attack and a new malicious release made which contained code which some environment variables and download</td>
+            </tr>
+            <tr>
+                <td><strong>defer</strong></td>
+                <td>1.0.6</td>
+                <td>1.0.4</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>defusedxml</strong></td>
+                <td>0.7.1</td>
+                <td>0.7.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>deja-dup-caja</strong></td>
+                <td>0.0.9</td>
+                <td>unknown</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>deluge</strong></td>
+                <td>2.2.1.dev0+20250824</td>
+                <td>2.2.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>diffusers</strong></td>
+                <td>0.38.0</td>
+                <td>0.43.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>dill</strong></td>
+                <td>0.4.0</td>
+                <td>0.4.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>distro</strong></td>
+                <td>1.9.0</td>
+                <td>1.9.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>distro-info</strong></td>
+                <td>1.15</td>
+                <td>1.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>dnspython</strong></td>
+                <td>2.9.1</td>
+                <td>2.9.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>docstring_parser</strong></td>
+                <td>0.18.0</td>
+                <td>0.18.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>duckduckgo_search</strong></td>
+                <td>8.1.1</td>
+                <td>8.1.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>durationpy</strong></td>
+                <td>0.10</td>
+                <td>0.11</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>EbookLib</strong></td>
+                <td>0.20</td>
+                <td>0.21</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>email_validator</strong></td>
+                <td>2.2.0</td>
+                <td>2.3.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>fake-useragent</strong></td>
+                <td>2.2.0</td>
+                <td>2.2.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>fastapi</strong></td>
+                <td>0.162.0</td>
+                <td>0.162.5</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>filelock</strong></td>
+                <td>4.2.6</td>
+                <td>4.2.10</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>flatbuffers</strong></td>
+                <td>25.12.19</td>
+                <td>25.12.19</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>folder-color-caja</strong></td>
+                <td>0.0.86</td>
+                <td>unknown</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>folder-color-common</strong></td>
+                <td>0.0.86</td>
+                <td>unknown</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>frozenlist</strong></td>
+                <td>1.8.0</td>
+                <td>1.8.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>fsspec</strong></td>
+                <td>2025.9.0</td>
+                <td>2026.9.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>CVE-2026-104851; CVE-2026-104851</td>
+                <td>CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H; CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H</td>
+                <td>fsspec: Server-Side Template Injection in ReferenceFileSystem leads to Remote Code Execution | fsspec: Server-Side Template Injection in ReferenceFileSystem leads to Remote Code Execution</td>
+            </tr>
+            <tr>
+                <td><strong>GeoIP</strong></td>
+                <td>1.3.2</td>
+                <td>1.3.2</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>gguf</strong></td>
+                <td>0.19.0</td>
+                <td>0.19.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>ghp-import</strong></td>
+                <td>2.1.0</td>
+                <td>2.1.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>googleapis-common-protos</strong></td>
+                <td>1.75.0</td>
+                <td>1.76.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>greenlet</strong></td>
+                <td>3.5.1</td>
+                <td>3.5.6</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>grpcio</strong></td>
+                <td>1.81.0</td>
+                <td>1.85.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>gssapi</strong></td>
+                <td>1.10.1</td>
+                <td>1.12.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>h11</strong></td>
+                <td>0.16.0</td>
+                <td>0.16.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>h2</strong></td>
+                <td>4.4.1</td>
+                <td>4.4.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>hf-xet</strong></td>
+                <td>1.6.0</td>
+                <td>1.8.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>hf_transfer</strong></td>
+                <td>0.1.9</td>
+                <td>0.1.9</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>hpack</strong></td>
+                <td>4.2.0</td>
+                <td>4.2.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>httpcore</strong></td>
+                <td>1.0.9</td>
+                <td>1.0.9</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>httplib2</strong></td>
+                <td>0.32.1</td>
+                <td>0.32.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>httptools</strong></td>
+                <td>0.8.0</td>
+                <td>0.9.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>httpx</strong></td>
+                <td>0.28.1</td>
+                <td>0.28.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>httpx-sse</strong></td>
+                <td>0.4.3</td>
+                <td>0.4.3</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>huggingface_hub</strong></td>
+                <td>1.27.0</td>
+                <td>2.4.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>hvac</strong></td>
+                <td>2.3.0</td>
+                <td>2.4.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>hyperframe</strong></td>
+                <td>6.1.0</td>
+                <td>6.1.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>hyperlink</strong></td>
+                <td>21.0.0</td>
+                <td>21.0.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>idna</strong></td>
+                <td>3.11</td>
+                <td>3.20</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>CVE-2026-45409; CVE-2026-45409</td>
+                <td>CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L; CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L</td>
+                <td>Internationalized Domain Names in Applications (IDNA): Specially crafted inputs to idna.encode() can bypass CVE-2024-3651 fix | Internationalized Domain Names in Applications (IDNA) for Python provides support for Internationalized Domain Names in Applications (IDNA) and Unicode IDNA Compatibility Processing. In versions prior</td>
+            </tr>
+            <tr>
+                <td><strong>importlib_metadata</strong></td>
+                <td>9.0.0</td>
+                <td>10.2.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>importlib_resources</strong></td>
+                <td>7.1.0</td>
+                <td>7.1.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>incremental</strong></td>
+                <td>24.7.2</td>
+                <td>24.11.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>inflect</strong></td>
+                <td>7.5.0</td>
+                <td>7.6.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>iniconfig</strong></td>
+                <td>2.1.0</td>
+                <td>2.3.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>invoke</strong></td>
+                <td>3.0.3</td>
+                <td>3.0.3</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>itsdangerous</strong></td>
+                <td>2.2.0</td>
+                <td>2.2.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>jaraco.context</strong></td>
+                <td>6.0.1</td>
+                <td>6.1.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>CVE-2026-23949; CVE-2026-23949</td>
+                <td>CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N; CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N</td>
+                <td>jaraco.context Has a Path Traversal Vulnerability | jaraco.context Has a Path Traversal Vulnerability</td>
+            </tr>
+            <tr>
+                <td><strong>jaraco.functools</strong></td>
+                <td>4.1.0</td>
+                <td>4.6.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>jaraco.text</strong></td>
+                <td>4.0.0</td>
+                <td>4.3.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>Jinja2</strong></td>
+                <td>3.1.6</td>
+                <td>3.1.6</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>jmespath</strong></td>
+                <td>1.0.1</td>
+                <td>1.1.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>joblib</strong></td>
+                <td>1.5.2</td>
+                <td>1.6.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>jsonpatch</strong></td>
+                <td>1.33</td>
+                <td>1.47</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>jsonpointer</strong></td>
+                <td>2.4</td>
+                <td>3.12</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>jsonschema</strong></td>
+                <td>4.26.0</td>
+                <td>4.26.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>jsonschema-specifications</strong></td>
+                <td>2023.12.1</td>
+                <td>2025.9.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>kubernetes</strong></td>
+                <td>36.0.2</td>
+                <td>37.0.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>langchain</strong></td>
+                <td>1.3.7</td>
+                <td>1.5.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>CVE-2026-55443; CVE-2026-55443</td>
+                <td>CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N; CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N</td>
+                <td>LangChain: Path traversal and sandbox escape in LangChain file-search middleware and loaders | LangChain is a framework for building agents and LLM-powered applications. Prior to 1.3.9, several LangChain components that resolve filesystem paths or expand search patterns do not consistently conf</td>
+            </tr>
+            <tr>
+                <td><strong>langchain-classic</strong></td>
+                <td>1.0.8</td>
+                <td>1.0.8</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>langchain-community</strong></td>
+                <td>0.4.2</td>
+                <td>0.4.2</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>langchain-core</strong></td>
+                <td>1.4.6</td>
+                <td>1.8.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>langchain-ollama</strong></td>
+                <td>1.1.0</td>
+                <td>1.1.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>langchain-protocol</strong></td>
+                <td>0.0.16</td>
+                <td>0.0.21</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>langchain-text-splitters</strong></td>
+                <td>1.1.2</td>
+                <td>1.1.3</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>langgraph</strong></td>
+                <td>1.2.4</td>
+                <td>1.2.20</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>CVE-2026-118667</td>
+                <td>CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N</td>
+                <td>LangGraph: Unencoded identifiers in LangGraph SDK v3 streaming can redirect authenticated GET requests</td>
+            </tr>
+            <tr>
+                <td><strong>langgraph-checkpoint</strong></td>
+                <td>4.1.1</td>
+                <td>4.3.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>langgraph-prebuilt</strong></td>
+                <td>1.1.0</td>
+                <td>1.1.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>langgraph-sdk</strong></td>
+                <td>0.4.2</td>
+                <td>0.4.14</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>CVE-2026-118667; CVE-2026-104873; CVE-2026-104873</td>
+                <td>CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N; CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N; CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N</td>
+                <td>LangGraph: Unencoded identifiers in LangGraph SDK v3 streaming can redirect authenticated GET requests | LangGraph SDK custom auth silently ignores actions= on resource decorators | LangGraph SDK custom auth silently ignores actions= on resource decorators</td>
+            </tr>
+            <tr>
+                <td><strong>langsmith</strong></td>
+                <td>0.8.14</td>
+                <td>0.14.17</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>CVE-2026-59152</td>
+                <td>CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N</td>
+                <td>LangSmith SDK TracingMiddleware: Arbitrary server-side file read</td>
+            </tr>
+            <tr>
+                <td><strong>language-selector</strong></td>
+                <td>0.1</td>
+                <td>unknown</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>launchpadlib</strong></td>
+                <td>2.1.0</td>
+                <td>2.3.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>lazr.restfulclient</strong></td>
+                <td>0.14.6</td>
+                <td>4.1.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>lazr.uri</strong></td>
+                <td>1.0.6</td>
+                <td>4.0.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>legacy-cgi</strong></td>
+                <td>2.6.4</td>
+                <td>2.6.4</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>libpass</strong></td>
+                <td>1.9.3</td>
+                <td>1.9.4</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>libtorrent</strong></td>
+                <td>2.0.12</td>
+                <td>2.1.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>libvirt-python</strong></td>
+                <td>12.0.0</td>
+                <td>12.9.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>license-expression</strong></td>
+                <td>30.4.4</td>
+                <td>30.4.4</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>linkify-it-py</strong></td>
+                <td>2.0.3</td>
+                <td>2.2.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>livereload</strong></td>
+                <td>2.7.1</td>
+                <td>2.7.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>louis</strong></td>
+                <td>3.36.0</td>
+                <td>1.3</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>lunr</strong></td>
+                <td>0.8.0</td>
+                <td>0.8.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>lxml</strong></td>
+                <td>6.1.1</td>
+                <td>6.1.3</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>Magnus</strong></td>
+                <td>1.0.3</td>
+                <td>0.5.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>Mako</strong></td>
+                <td>1.3.10.dev0</td>
+                <td>1.4.3</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>CVE-2026-44307; CVE-2026-102991; CVE-2026-41205; CVE-2026-44307; CVE-2026-102991; CVE-2026-41205</td>
+                <td>CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N; CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N; CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N; CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N; CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N; CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N</td>
+                <td>Mako vulnerable to path traversal via backslash URI on Windows in TemplateLookup | Mako: Path traversal via drive-letter URI on Windows in TemplateLookup | Mako: Path traversal via double-slash URI prefix in TemplateLookup | Mako vulnerable to path traversal via backslash URI on Windows in TemplateLookup | Mako: Path traversal via drive-letter URI on Windows in TemplateLookup | Mako is a template library written in Python. Prior to 1.3.11, TemplateLookup.get_template() is vulnerable to path trav</td>
+            </tr>
+            <tr>
+                <td><strong>Markdown</strong></td>
+                <td>3.10.2</td>
+                <td>3.11.3</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>markdown-it-py</strong></td>
+                <td>3.0.0</td>
+                <td>4.3.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>MarkupSafe</strong></td>
+                <td>3.0.3</td>
+                <td>3.0.4</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>mate-hud</strong></td>
+                <td>22.10.3</td>
+                <td>unknown</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>mate-tweak</strong></td>
+                <td>22.10.0</td>
+                <td>unknown</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>mdurl</strong></td>
+                <td>0.1.2</td>
+                <td>0.1.2</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>mergedeep</strong></td>
+                <td>1.3.4</td>
+                <td>1.3.4</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>mistral_common</strong></td>
+                <td>1.11.3</td>
+                <td>1.13.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>mkdocs</strong></td>
+                <td>1.6.1</td>
+                <td>1.6.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>mkdocs-get-deps</strong></td>
+                <td>0.2.0</td>
+                <td>0.2.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>mmh3</strong></td>
+                <td>5.2.1</td>
+                <td>5.3.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>more-itertools</strong></td>
+                <td>10.8.0</td>
+                <td>11.2.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>mpmath</strong></td>
+                <td>1.3.0</td>
+                <td>1.4.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>msgpack</strong></td>
+                <td>1.2.4</td>
+                <td>1.2.4</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>msgspec</strong></td>
+                <td>0.21.1</td>
+                <td>0.22.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>multidict</strong></td>
+                <td>6.7.1</td>
+                <td>7.2.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>CVE-2026-104874; CVE-2026-104874</td>
+                <td>CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L; CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L</td>
+                <td>Multidict: Reference leak in CIMultiDict/MultiDict items-view union and subtraction | Multidict: Reference leak in CIMultiDict/MultiDict items-view union and subtraction</td>
+            </tr>
+            <tr>
+                <td><strong>multiprocess</strong></td>
+                <td>0.70.16</td>
+                <td>0.70.19</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>mutagen</strong></td>
+                <td>1.47.0</td>
+                <td>1.48.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>mypy_extensions</strong></td>
+                <td>1.1.0</td>
+                <td>1.2.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>nest-asyncio</strong></td>
+                <td>1.6.0</td>
+                <td>1.6.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>netaddr</strong></td>
+                <td>1.3.0</td>
+                <td>1.3.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>netifaces</strong></td>
+                <td>0.11.0</td>
+                <td>0.11.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>networkx</strong></td>
+                <td>3.6.1</td>
+                <td>3.7</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>nltk</strong></td>
+                <td>3.10.4</td>
+                <td>3.10.4</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>numpy</strong></td>
+                <td>2.3.5</td>
+                <td>2.5.4</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>nvidia-cublas-cu12</strong></td>
+                <td>12.8.4.1</td>
+                <td>12.9.3.13</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>nvidia-cuda-cupti-cu12</strong></td>
+                <td>12.8.90</td>
+                <td>12.9.79</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>nvidia-cuda-nvrtc-cu12</strong></td>
+                <td>12.8.93</td>
+                <td>12.9.86</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>nvidia-cuda-runtime-cu12</strong></td>
+                <td>12.8.90</td>
+                <td>12.9.79</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>nvidia-cudnn-cu12</strong></td>
+                <td>9.10.2.21</td>
+                <td>9.28.1.4</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>nvidia-cufft-cu12</strong></td>
+                <td>11.3.3.83</td>
+                <td>11.4.1.4</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>nvidia-cufile-cu12</strong></td>
+                <td>1.13.1.3</td>
+                <td>1.14.1.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>nvidia-curand-cu12</strong></td>
+                <td>10.3.9.90</td>
+                <td>10.3.10.19</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>nvidia-cusolver-cu12</strong></td>
+                <td>11.7.3.90</td>
+                <td>11.7.5.82</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>nvidia-cusparse-cu12</strong></td>
+                <td>12.5.8.93</td>
+                <td>12.5.10.65</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>nvidia-cusparselt-cu12</strong></td>
+                <td>0.7.1</td>
+                <td>0.8.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>nvidia-nccl-cu12</strong></td>
+                <td>2.27.5</td>
+                <td>2.32.6</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>nvidia-nvjitlink-cu12</strong></td>
+                <td>12.8.93</td>
+                <td>12.9.86</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>nvidia-nvshmem-cu12</strong></td>
+                <td>3.4.5</td>
+                <td>3.8.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>nvidia-nvtx-cu12</strong></td>
+                <td>12.8.90</td>
+                <td>12.9.79</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>oauthlib</strong></td>
+                <td>4.0.1</td>
+                <td>4.0.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>olefile</strong></td>
+                <td>0.47</td>
+                <td>0.47</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>ollama</strong></td>
+                <td>0.6.2</td>
+                <td>0.6.3</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>onboard</strong></td>
+                <td>1.4.3.post9</td>
+                <td>unknown</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>onnxruntime</strong></td>
+                <td>1.26.0</td>
+                <td>1.31.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>opentelemetry-api</strong></td>
+                <td>1.45.2</td>
+                <td>1.45.2</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>opentelemetry-exporter-otlp-proto-common</strong></td>
+                <td>1.42.1</td>
+                <td>1.45.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>opentelemetry-exporter-otlp-proto-grpc</strong></td>
+                <td>1.42.1</td>
+                <td>1.45.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>opentelemetry-proto</strong></td>
+                <td>1.42.1</td>
+                <td>1.45.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>opentelemetry-sdk</strong></td>
+                <td>1.42.1</td>
+                <td>1.45.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>opentelemetry-semantic-conventions</strong></td>
+                <td>0.63b1</td>
+                <td>0.66b2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>orjson</strong></td>
+                <td>3.11.9</td>
+                <td>3.13.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>ormsgpack</strong></td>
+                <td>1.12.2</td>
+                <td>1.13.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>overrides</strong></td>
+                <td>7.7.0</td>
+                <td>7.7.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>packageurl-python</strong></td>
+                <td>0.17.6</td>
+                <td>0.17.6</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>packaging</strong></td>
+                <td>26.0</td>
+                <td>26.3</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pandas</strong></td>
+                <td>3.0.3</td>
+                <td>3.1.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>paramiko</strong></td>
+                <td>5.1.0</td>
+                <td>5.1.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pathspec</strong></td>
+                <td>1.0.4</td>
+                <td>1.1.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>peft</strong></td>
+                <td>0.19.1</td>
+                <td>0.21.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pexpect</strong></td>
+                <td>4.9.0</td>
+                <td>4.9.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pillow</strong></td>
+                <td>13.0.0</td>
+                <td>13.0.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pip</strong></td>
+                <td>26.2.2</td>
+                <td>26.3</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pip-requirements-parser</strong></td>
+                <td>32.0.1</td>
+                <td>32.0.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pip-review</strong></td>
+                <td>1.3.0</td>
+                <td>1.3.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pip_api</strong></td>
+                <td>0.0.35</td>
+                <td>0.0.35</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pip_audit</strong></td>
+                <td>2.10.1</td>
+                <td>2.10.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pipx</strong></td>
+                <td>1.8.0</td>
+                <td>1.18.16</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>platformdirs</strong></td>
+                <td>4.9.4</td>
+                <td>4.14.5</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pluggy</strong></td>
+                <td>1.6.0</td>
+                <td>1.7.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>primp</strong></td>
+                <td>1.3.1</td>
+                <td>2.0.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>propcache</strong></td>
+                <td>0.5.2</td>
+                <td>0.5.4</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>protobuf</strong></td>
+                <td>6.33.6</td>
+                <td>7.36.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>psutil</strong></td>
+                <td>7.1.0</td>
+                <td>7.2.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>ptyprocess</strong></td>
+                <td>0.7.0</td>
+                <td>0.7.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pulsemixer</strong></td>
+                <td>1.5.1</td>
+                <td>1.5.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>py-serializable</strong></td>
+                <td>2.1.0</td>
+                <td>2.2.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pyarrow</strong></td>
+                <td>24.0.0</td>
+                <td>26.0.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pyasn1</strong></td>
+                <td>0.6.5</td>
+                <td>0.6.5</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pyasn1_modules</strong></td>
+                <td>0.4.1</td>
+                <td>0.4.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pyasyncore</strong></td>
+                <td>1.0.2</td>
+                <td>1.0.5</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pybase64</strong></td>
+                <td>1.4.3</td>
+                <td>1.5.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pycairo</strong></td>
+                <td>1.27.0</td>
+                <td>1.29.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pycountry</strong></td>
+                <td>26.2.16</td>
+                <td>26.2.16</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pycparser</strong></td>
+                <td>3.0</td>
+                <td>3.12</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pycryptodomex</strong></td>
+                <td>3.20.0</td>
+                <td>3.24.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pycups</strong></td>
+                <td>2.0.4</td>
+                <td>2.0.4</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pydantic</strong></td>
+                <td>2.12.5</td>
+                <td>2.14.3</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pydantic-extra-types</strong></td>
+                <td>2.11.1</td>
+                <td>2.11.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pydantic-settings</strong></td>
+                <td>2.14.1</td>
+                <td>2.16.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>CVE-2026-58203</td>
+                <td>CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L</td>
+                <td>pydantic-settings: NestedSecretsSettingsSource follows symlinks outside secrets_dir, enabling local file read and bypassing secrets_dir_max_size</td>
+            </tr>
+            <tr>
+                <td><strong>pydantic_core</strong></td>
+                <td>2.41.5</td>
+                <td>2.50.4</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pygame</strong></td>
+                <td>2.6.1</td>
+                <td>2.6.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>Pygments</strong></td>
+                <td>2.19.2</td>
+                <td>2.21.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>CVE-2026-4539; CVE-2026-4539</td>
+                <td>CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:L; CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:L</td>
+                <td>Pygments has Regular Expression Denial of Service (ReDoS) due to Inefficient Regex for GUID Matching | Pygments has Regular Expression Denial of Service (ReDoS) due to Inefficient Regex for GUID Matching</td>
+            </tr>
+            <tr>
+                <td><strong>PyGObject</strong></td>
+                <td>3.56.2</td>
+                <td>3.58.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>PyHamcrest</strong></td>
+                <td>2.1.0</td>
+                <td>2.1.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pyhcl</strong></td>
+                <td>0.4.4</td>
+                <td>0.4.5</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pyinotify</strong></td>
+                <td>0.9.6</td>
+                <td>0.9.6</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>PyJWT</strong></td>
+                <td>2.15.1</td>
+                <td>2.15.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pykerberos</strong></td>
+                <td>1.1.14</td>
+                <td>1.2.4</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>PyMuPDF</strong></td>
+                <td>1.26.7</td>
+                <td>2.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>PyNaCl</strong></td>
+                <td>1.6.2</td>
+                <td>1.6.2</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pyOpenSSL</strong></td>
+                <td>26.4.0</td>
+                <td>26.4.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pyparsing</strong></td>
+                <td>3.3.2</td>
+                <td>3.3.3</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pypdf</strong></td>
+                <td>6.21.4</td>
+                <td>7.0.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>PyPika</strong></td>
+                <td>0.51.1</td>
+                <td>0.51.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pyproject_hooks</strong></td>
+                <td>1.2.0</td>
+                <td>1.3.3</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pyserial</strong></td>
+                <td>3.5</td>
+                <td>3.5</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pyspnego</strong></td>
+                <td>0.10.2</td>
+                <td>0.12.4</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pytest</strong></td>
+                <td>9.2.0</td>
+                <td>9.2.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>python-apt</strong></td>
+                <td>3.1.0+ubuntu1.1</td>
+                <td>0.7.8</td>
+                <td>False</td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>CVE-2019-15796; CVE-2019-15795</td>
+                <td>CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:L/I:L/A:N; CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:L/I:L/A:N</td>
+                <td>python-apt Does Not Check Hash Signature | python-apt Flawed Package Integrity Check</td>
+            </tr>
+            <tr>
+                <td><strong>python-dateutil</strong></td>
+                <td>2.9.0</td>
+                <td>4.0.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>python-debian</strong></td>
+                <td>1.0.1+ubuntu2</td>
+                <td>1.1.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>python-dotenv</strong></td>
+                <td>1.2.2</td>
+                <td>1.2.4</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>python-gitlab</strong></td>
+                <td>8.0.0</td>
+                <td>8.6.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>python-multipart</strong></td>
+                <td>0.0.33</td>
+                <td>0.0.33</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>python-whois</strong></td>
+                <td>0.9.6</td>
+                <td>0.9.6</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>python-xlib</strong></td>
+                <td>0.33</td>
+                <td>0.33</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pytokens</strong></td>
+                <td>0.4.1</td>
+                <td>0.4.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pywinrm</strong></td>
+                <td>0.5.0</td>
+                <td>0.5.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pyxdg</strong></td>
+                <td>0.28</td>
+                <td>0.28</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>PyYAML</strong></td>
+                <td>6.0.3</td>
+                <td>6.0.3</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>pyyaml_env_tag</strong></td>
+                <td>1.1</td>
+                <td>1.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>referencing</strong></td>
+                <td>0.36.2</td>
+                <td>0.37.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>regex</strong></td>
+                <td>2026.5.9</td>
+                <td>2026.11.9</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>rencode</strong></td>
+                <td>1.0.6</td>
+                <td>1.0.9</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>CVE-2021-40839; CVE-2021-40839</td>
+                <td>CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</td>
+                <td>Infinite Loop in rencode | The rencode package through 1.0.6 for Python allows an infinite loop in typecode decoding (such as via ;\x2f\x7f), enabling a remote attack that consumes CPU and memory.</td>
+            </tr>
+            <tr>
+                <td><strong>requests</strong></td>
+                <td>2.34.2</td>
+                <td>2.34.2</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>requests-file</strong></td>
+                <td>3.0.1</td>
+                <td>3.0.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>requests-oauthlib</strong></td>
+                <td>2.0.0</td>
+                <td>2.0.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>requests-toolbelt</strong></td>
+                <td>1.0.0</td>
+                <td>1.0.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>requests_ntlm</strong></td>
+                <td>1.3.0</td>
+                <td>1.3.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>resolvelib</strong></td>
+                <td>1.2.1</td>
+                <td>1.2.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>rich</strong></td>
+                <td>13.9.4</td>
+                <td>15.0.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>rpds-py</strong></td>
+                <td>0.27.1</td>
+                <td>2026.9.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>ruamel.yaml</strong></td>
+                <td>0.19.1</td>
+                <td>0.19.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>ruamel.yaml.clib</strong></td>
+                <td>0.2.15</td>
+                <td>0.2.15</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>safetensors</strong></td>
+                <td>0.8.0</td>
+                <td>0.8.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>screen-resolution-extra</strong></td>
+                <td>0.0.0</td>
+                <td>0.0.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>selinux</strong></td>
+                <td>3.9</td>
+                <td>0.3.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>sentencepiece</strong></td>
+                <td>0.2.1</td>
+                <td>0.2.3</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>serpapi</strong></td>
+                <td>1.1.1</td>
+                <td>1.2.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>service-identity</strong></td>
+                <td>24.2.0</td>
+                <td>26.1.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>setproctitle</strong></td>
+                <td>1.3.7</td>
+                <td>1.3.8</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>setuptools</strong></td>
+                <td>84.2.1</td>
+                <td>84.2.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>shellingham</strong></td>
+                <td>1.5.4</td>
+                <td>1.5.4</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>six</strong></td>
+                <td>1.17.0</td>
+                <td>1.17.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>sniffio</strong></td>
+                <td>1.3.1</td>
+                <td>1.3.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>socksio</strong></td>
+                <td>1.0.0</td>
+                <td>1.0.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>sortedcontainers</strong></td>
+                <td>2.4.0</td>
+                <td>2.4.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>soupsieve</strong></td>
+                <td>2.8.4</td>
+                <td>4.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>CVE-2026-86000; CVE-2026-85999; CVE-2026-86000; CVE-2026-85999</td>
+                <td>CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L; CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L; CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L; CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L</td>
+                <td>Soup Sieve: Polynomial-time ReDoS (O(n²)) in the `IDENTIFIER` / `VALUE` selector sub-patterns | Soup Sieve: Polynomial-time ReDoS (O(n²)) in the whitespace/comment trimming regex `RE_WS_END` (triggers on VALID selectors) | Soup Sieve: Polynomial-time ReDoS (O(n²)) in the `IDENTIFIER` / `VALUE` selector sub-patterns | Soup Sieve: Polynomial-time ReDoS (O(n²)) in the whitespace/comment trimming regex `RE_WS_END` (triggers on VALID selectors)</td>
+            </tr>
+            <tr>
+                <td><strong>SQLAlchemy</strong></td>
+                <td>2.0.50</td>
+                <td>2.1.8</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>ssh-import-id</strong></td>
+                <td>5.11</td>
+                <td>5.13</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>starlette</strong></td>
+                <td>1.10.0</td>
+                <td>1.10.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>structlog</strong></td>
+                <td>26.1.0</td>
+                <td>26.1.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>subprocess-tee</strong></td>
+                <td>0.4.2</td>
+                <td>0.4.2</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>sympy</strong></td>
+                <td>1.14.0</td>
+                <td>1.14.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>systemd-python</strong></td>
+                <td>235</td>
+                <td>235</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>tenacity</strong></td>
+                <td>9.1.4</td>
+                <td>9.2.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>tiktoken</strong></td>
+                <td>0.13.0</td>
+                <td>0.14.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>tldextract</strong></td>
+                <td>5.3.2</td>
+                <td>5.4.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>tokenizers</strong></td>
+                <td>0.22.2</td>
+                <td>0.23.3</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>tomli</strong></td>
+                <td>2.5.0</td>
+                <td>2.5.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>tomli_w</strong></td>
+                <td>1.2.0</td>
+                <td>1.2.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>torch</strong></td>
+                <td>2.10.0</td>
+                <td>2.15.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>CVE-2025-3000; CVE-2026-4538</td>
+                <td>CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L; CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H</td>
+                <td>PyTorch is vulnerable to memory corruption through its torch.jit.script function | A vulnerability was identified in PyTorch 2.10.0. The affected element is an unknown function of the component pt2 Loading Handler. The manipulation leads to deserialization. The attack can only be pe</td>
+            </tr>
+            <tr>
+                <td><strong>torchao</strong></td>
+                <td>0.17.0</td>
+                <td>0.18.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>torchvision</strong></td>
+                <td>0.25.0</td>
+                <td>0.29.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>tornado</strong></td>
+                <td>6.6</td>
+                <td>6.6.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>tqdm</strong></td>
+                <td>4.67.3</td>
+                <td>4.70.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>transformers</strong></td>
+                <td>5.5.0</td>
+                <td>5.22.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-danger">True</span></td>
+                <td>CVE-2026-80047; CVE-2026-9856; CVE-2026-9856; CVE-2026-80047</td>
+                <td>CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H; CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:L; CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:L; CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H</td>
+                <td>Hugging Face Transformers downloads custom generation code before trust consent | Transformers save_pretrained path traversal allows arbitrary file writes through chat template names | Transformers save_pretrained path traversal allows arbitrary file writes through chat template names | Hugging Face Transformers downloads custom generation code before trust consent</td>
+            </tr>
+            <tr>
+                <td><strong>triton</strong></td>
+                <td>3.6.0</td>
+                <td>3.9.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>trl</strong></td>
+                <td>0.24.0</td>
+                <td>1.17.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>Twisted</strong></td>
+                <td>26.10.0</td>
+                <td>26.10.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>typeguard</strong></td>
+                <td>4.4.4</td>
+                <td>4.6.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>typer</strong></td>
+                <td>0.25.1</td>
+                <td>0.29.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>typing-inspection</strong></td>
+                <td>0.4.2</td>
+                <td>0.4.5</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>typing_extensions</strong></td>
+                <td>4.15.0</td>
+                <td>4.16.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>tyro</strong></td>
+                <td>1.0.13</td>
+                <td>1.0.17</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>ubuntu-drivers-common</strong></td>
+                <td>0.0.0</td>
+                <td>unknown</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>ubuntu-pro-client</strong></td>
+                <td>8001</td>
+                <td>unknown</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>uc-micro-py</strong></td>
+                <td>1.0.3</td>
+                <td>2.0.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>ufw</strong></td>
+                <td>0.36.2</td>
+                <td>unknown</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>unattended-upgrades</strong></td>
+                <td>0.1</td>
+                <td>unknown</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>unsloth_zoo</strong></td>
+                <td>2026.8.9</td>
+                <td>2026.11.4</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>urllib3</strong></td>
+                <td>2.8.0</td>
+                <td>2.8.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>userpath</strong></td>
+                <td>1.9.2</td>
+                <td>1.9.2</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>uuid_utils</strong></td>
+                <td>0.16.0</td>
+                <td>1.2.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>uvicorn</strong></td>
+                <td>0.38.0</td>
+                <td>0.54.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>uvloop</strong></td>
+                <td>0.22.1</td>
+                <td>0.23.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>wadllib</strong></td>
+                <td>2.0.0</td>
+                <td>2.1.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>watchdog</strong></td>
+                <td>6.0.0</td>
+                <td>7.1.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>watchfiles</strong></td>
+                <td>1.2.0</td>
+                <td>1.3.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>wcmatch</strong></td>
+                <td>10.0</td>
+                <td>12.0.1</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>websocket-client</strong></td>
+                <td>1.9.0</td>
+                <td>1.9.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>websockets</strong></td>
+                <td>15.0.1</td>
+                <td>17.4</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>wheel</strong></td>
+                <td>0.46.3</td>
+                <td>0.48.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>wsproto</strong></td>
+                <td>1.3.2</td>
+                <td>1.3.2</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>xdg</strong></td>
+                <td>5</td>
+                <td>6.0.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>xformers</strong></td>
+                <td>0.0.35</td>
+                <td>0.0.35</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>xkit</strong></td>
+                <td>0.0.0</td>
+                <td>unknown</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>xmltodict</strong></td>
+                <td>1.0.3</td>
+                <td>1.0.4</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>xxhash</strong></td>
+                <td>3.7.0</td>
+                <td>4.1.0</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>yamllint</strong></td>
+                <td>1.38.0</td>
+                <td>1.38.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>yarl</strong></td>
+                <td>1.25.1</td>
+                <td>1.25.1</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>yt-dlp</strong></td>
+                <td>2026.10.26</td>
+                <td>2026.10.26</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>zipp</strong></td>
+                <td>3.23.0</td>
+                <td>4.1.2</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>zope.interface</strong></td>
+                <td>8.2</td>
+                <td>8.7</td>
+                <td><span class="badge badge-warning">True</span></td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>zstandard</strong></td>
+                <td>0.25.0</td>
+                <td>0.25.0</td>
+                <td>False</td>
+                <td><span class="badge badge-success">False</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+function filterTable() {
+    let input = document.getElementById("searchBox");
+    let filter = input.value.toLowerCase();
+    let table = document.getElementById("auditTable");
+    let tr = table.getElementsByTagName("tr");
+
+    for (let i = 1; i < tr.length; i++) {
+        let txt = tr[i].textContent || tr[i].innerText;
+        tr[i].style.display = txt.toLowerCase().indexOf(filter) > -1 ? "" : "none";
+    }
+}
+</script>
+</body>
+</html>
