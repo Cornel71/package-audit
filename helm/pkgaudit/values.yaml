@@ -76,7 +76,8 @@ tls:
   certManager:
     enabled: true
     selfSigned: false
-    issuerRef: letsencrypt-prod
+    issuerRef: "letsencrypt-prod"
+    duration:
     renewBefore: 240h
 
 networkPolicy:
